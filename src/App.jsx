@@ -1,44 +1,54 @@
-import React, { useEffect } from 'react'
-import './App.css'
+import axios from 'axios';
+import React, { useEffect } from 'react';
+import './App.css';
 
 const App = () => {
-  const [data, setData] = React.useState({})
-  const [array, setArray] = React.useState([])
+  const [payload, setPayload] = React.useState({});
+  const [array, setArray] = React.useState([]);
   const getData = async () => {
     try {
-      const res = await fetch(
-        'https://projeto-post.azurewebsites.net/api/cards/2022-05-30',
-        { method: 'GET', mode: 'no-cors' }
-      )
-      console.log(res)
-      const nome = await res.json()
-      console.log(nome)
-      debugger
+      const { data } = await axios.get(
+        'https://projeto-post.azurewebsites.net/api/cards/2022-05-30'
+      );
+      console.log(data);
+      // const res = await fetch(
+      //   'https://projeto-post.azurewebsites.net/api/cards/2022-05-30',
+      //   { method: 'GET', mode: 'no-cors' }
+      // );
+      // console.log(res);
+      // const nome = await res.json();
+      // console.log(nome);
+      // debugger;
       // setArray(await res.json())
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
-  console.log(array)
-  const handleChange = e => {
-    setData({ ...data, [e.target.name]: e.target.value })
-  }
-  useEffect(() => {
-    getData()
-  }, [])
+  };
 
-  const onSubmit = async e => {
-    e.preventDefault()
-    data.userId = 1
-    const res = await fetch(
-      'https://projeto-post.azurewebsites.net/api/cards/2022-05-30',
-      {
-        method: 'POST',
-        body: JSON.stringify(data)
-      }
-    )
-    setData(await res.json())
-  }
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    payload.userId = 1;
+    const res = await axios.post(
+      'https://projeto-post.azurewebsites.net/api/cards/new',
+      payload
+    );
+    // const res = await fetch(
+    //   'https://projeto-post.azurewebsites.net/api/cards/2022-05-30',
+    //   {
+    //     method: 'POST',
+    //     body: JSON.stringify(payload),
+    //   }
+    // );
+    // setPayload(await res.json());
+  };
+
+  const handleChange = (e) => {
+    setPayload({ ...payload, [e.target.name]: e.target.value });
+  };
 
   return (
     <>
@@ -64,7 +74,7 @@ const App = () => {
         })} */}
       </form>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
