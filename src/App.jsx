@@ -11,6 +11,7 @@ const App = () => {
         'https://projeto-post.azurewebsites.net/api/cards/2022-05-30'
       );
       console.log(data);
+      if (data) setArray(data);
       // const res = await fetch(
       //   'https://projeto-post.azurewebsites.net/api/cards/2022-05-30',
       //   { method: 'GET', mode: 'no-cors' }
@@ -19,7 +20,6 @@ const App = () => {
       // const nome = await res.json();
       // console.log(nome);
       // debugger;
-      // setArray(await res.json())
     } catch (err) {
       console.log(err);
     }
@@ -53,6 +53,7 @@ const App = () => {
   return (
     <>
       <form onSubmit={onSubmit} className="header">
+        {array && <pre>{JSON.stringify(array, null, 2)}</pre>}
         {/* <input type="text" name="title" onChange={handleChange} />
         <input type="text" name="body" onChange={handleChange} />
         <button
@@ -63,7 +64,6 @@ const App = () => {
         >
           Submit
         </button>
-        {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
         {array.map(({ title, body }) => {
           return (
             <>
