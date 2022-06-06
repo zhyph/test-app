@@ -1,40 +1,54 @@
-import React, { useEffect } from 'react';
-import './App.css';
+import React, { useEffect } from 'react'
+import './App.css'
 
 const App = () => {
-  const [data, setData] = React.useState({});
-  const [array, setArray] = React.useState([]);
+  const [data, setData] = React.useState({})
+  const [array, setArray] = React.useState([])
   const getData = async () => {
-    const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-    setArray(await res.json());
-  };
-
-  const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
+    try {
+      const res = await fetch(
+        'https://projeto-post.azurewebsites.net/api/cards/2022-05-30',
+        { method: 'GET', mode: 'no-cors' }
+      )
+      console.log(res)
+      const nome = await res.json()
+      console.log(nome)
+      debugger
+      // setArray(await res.json())
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  console.log(array)
+  const handleChange = e => {
+    setData({ ...data, [e.target.name]: e.target.value })
+  }
   useEffect(() => {
-    getData();
-  }, []);
+    getData()
+  }, [])
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    data.userId = 1;
-    const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-    setData(await res.json());
-  };
+  const onSubmit = async e => {
+    e.preventDefault()
+    data.userId = 1
+    const res = await fetch(
+      'https://projeto-post.azurewebsites.net/api/cards/2022-05-30',
+      {
+        method: 'POST',
+        body: JSON.stringify(data)
+      }
+    )
+    setData(await res.json())
+  }
 
   return (
     <>
-      <form className="header">
-        <input type="text" name="title" onChange={handleChange} />
+      <form onSubmit={onSubmit} className="header">
+        {/* <input type="text" name="title" onChange={handleChange} />
         <input type="text" name="body" onChange={handleChange} />
         <button
-          type="button"
-          onClick={(e) => {
-            onSubmit(e);
+          type="submit"
+          onClick={e => {
+            onSubmit(e)
           }}
         >
           Submit
@@ -46,11 +60,11 @@ const App = () => {
               <h1>{title}</h1>
               <p>{body}</p>
             </>
-          );
-        })}
+          )
+        })} */}
       </form>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App
